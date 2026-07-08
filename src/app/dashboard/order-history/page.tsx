@@ -23,7 +23,7 @@ export default function OrderHistoryPage() {
     } else if (user) {
       async function loadHistory() {
         try {
-          const data = await getUserAppointments(user.uid);
+          const data = await getUserAppointments(user?.uid || "");
           setAppointments(data);
         } catch (e) {
           console.error(e);
