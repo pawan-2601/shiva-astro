@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  
+  --color-brand-blue: #0F2027; /* Deep Royal Blue / Night Sky */
+  --color-brand-purple: #200122; /* Deep Spiritual Purple */
+  --color-brand-gold: #D4AF37; /* Metallic Gold */
+  --color-brand-gold-light: #F3E5AB;
+  --color-brand-ivory: #FFFFF0; /* Ivory White */
+}
+
+:root {
+  --background: #FFFFF0;
+  --foreground: #0F2027;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0F172A; /* Deep dark blue background */
+    --foreground: #FFFFF0;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.2); /* Subtle gold border */
+}
+
+/* Elegant Gradients */
+.bg-gradient-luxury {
+  background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+}
+
+.bg-gradient-spiritual {
+  background: linear-gradient(135deg, #200122 0%, #6F0000 100%);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
