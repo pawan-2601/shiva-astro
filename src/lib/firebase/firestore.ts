@@ -1,5 +1,5 @@
 import { db } from "./config";
-import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, getDoc, setDoc, where } from "firebase/firestore";
 
 export type AppointmentData = {
   userId?: string;
@@ -52,7 +52,6 @@ export const getAppointments = async () => {
 
 export const getUserAppointments = async (userId: string) => {
   try {
-    const { where } = await import("firebase/firestore");
     const q = query(collection(db, "appointments"), where("userId", "==", userId));
     
     // Use a 3-second timeout
