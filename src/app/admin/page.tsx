@@ -50,10 +50,10 @@ export default function AdminDashboard() {
     .reduce((sum, apt) => sum + (Number(apt.price) || 0), 0);
 
   const stats = [
-    { label: "Today's Appointments", value: todaysAppointments.length.toString(), icon: Calendar, color: "text-blue-600", bg: "bg-blue-100" },
-    { label: "Pending Reports", value: pendingReports.length.toString(), icon: Clock, color: "text-orange-600", bg: "bg-orange-100" },
-    { label: "Total Clients", value: uniqueClients.toString(), icon: Users, color: "text-purple-600", bg: "bg-purple-100" },
-    { label: "Revenue (Month)", value: `₹${revenueThisMonth.toLocaleString()}`, icon: IndianRupee, color: "text-green-600", bg: "bg-green-100" },
+    { label: "Today's Appointments", value: todaysAppointments.length.toString(), icon: Calendar, color: "text-blue-600", bg: "bg-blue-100", link: "/admin/appointments" },
+    { label: "Pending Reports", value: pendingReports.length.toString(), icon: Clock, color: "text-orange-600", bg: "bg-orange-100", link: "/admin/appointments" },
+    { label: "Total Clients", value: uniqueClients.toString(), icon: Users, color: "text-purple-600", bg: "bg-purple-100", link: "/admin/clients" },
+    { label: "Revenue (Month)", value: `₹${revenueThisMonth.toLocaleString()}`, icon: IndianRupee, color: "text-green-600", bg: "bg-green-100", link: "/admin/appointments" },
   ];
 
   // We show up to 5 upcoming appointments (not completed/cancelled)
@@ -79,16 +79,18 @@ export default function AdminDashboard() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
-          <div key={idx} className="glass p-6 rounded-2xl border border-black/5 shadow-sm hover:shadow-md transition-shadow bg-white/50">
-            <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-xl ${stat.bg}`}>
-                <stat.icon className={`w-6 h-6 ${stat.color}`} />
+          <Link href={stat.link} key={idx} className="block group">
+            <div className="glass p-6 rounded-2xl border border-black/5 shadow-sm hover:shadow-md hover:border-[#D4AF37]/50 transition-all bg-white/50 h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className={`p-3 rounded-xl ${stat.bg} group-hover:scale-110 transition-transform`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+                <TrendingUp className="w-4 h-4 text-green-500" />
               </div>
-              <TrendingUp className="w-4 h-4 text-green-500" />
+              <h3 className="text-3xl font-bold text-foreground">{stat.value}</h3>
+              <p className="text-sm text-foreground/60 font-medium mt-1">{stat.label}</p>
             </div>
-            <h3 className="text-3xl font-bold text-foreground">{stat.value}</h3>
-            <p className="text-sm text-foreground/60 font-medium mt-1">{stat.label}</p>
-          </div>
+          </Link>
         ))}
       </div>
 
