@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Filter, ChevronDown, Check, X, Search, Loader2 } from "lucide-react";
-import { getAppointments, AppointmentData } from "@/lib/firebase/firestore";
+import { getAppointments, updateAppointmentStatus, AppointmentData } from "@/lib/firebase/firestore";
 
 type Appointment = AppointmentData & { id: string };
 
@@ -12,23 +12,36 @@ export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadAppointments() {
-      try {
-        const data = await getAppointments();
-        setAppointments(data);
-      } catch (e) {
-        console.error("Failed to load appointments", e);
-      } finally {
-        setLoading(false);
-      }
+  async function loadAppointments() {
+    try {
+      const data = await getAppointments();
+      setAppointments(data);
+    } catch (e) {
+      console.error("Failed to load appointments", e);
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
     loadAppointments();
   }, []);
 
+  const handleUpdateStatus = async (id: string, newStatus: "Pending" | "Confirmed" | "Completed" | "Cancelled") => {
+    try {
+      // Optimistic update
+      setAppointments(prev => prev.map(apt => apt.id === id ? { ...apt, status: newStatus } : apt));
+      await updateAppointmentStatus(id, newStatus);
+    } catch (e) {
+      console.error("Failed to update status", e);
+      // Revert on failure by reloading
+      loadAppointments();
+    }
+  };
+
   const filteredAppointments = appointments.filter((apt) => {
-    const matchesSearch = apt.clientName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          apt.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = (apt.clientName || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (apt.id || "").toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "All" || apt.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -68,6 +81,7 @@ export default function AppointmentsPage() {
               <option value="Pending">Pending</option>
               <option value="Confirmed">Confirmed</option>
               <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
             </select>
           </div>
         </div>
@@ -112,19 +126,31 @@ export default function AppointmentsPage() {
                       apt.status === "Confirmed" ? "bg-green-100 text-green-700" : 
                       apt.status === "Pending" ? "bg-yellow-100 text-yellow-700" :
                       apt.status === "Completed" ? "bg-blue-100 text-blue-700" :
-                      "bg-gray-100 text-gray-700"
+                      "bg-red-100 text-red-700"
                     }`}>
                       {apt.status}
                     </span>
                   </td>
                   <td className="py-4 px-4 text-right">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors" title="Confirm">
-                        <Check className="w-4 h-4" />
-                      </button>
-                      <button className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors" title="Cancel">
-                        <X className="w-4 h-4" />
-                      </button>
+                      {apt.status !== "Confirmed" && apt.status !== "Completed" && (
+                        <button 
+                          onClick={() => handleUpdateStatus(apt.id, "Confirmed")}
+                          className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors" 
+                          title="Confirm"
+                        >
+                          <Check className="w-4 h-4" />
+                        </button>
+                      )}
+                      {apt.status !== "Cancelled" && (
+                        <button 
+                          onClick={() => handleUpdateStatus(apt.id, "Cancelled")}
+                          className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors" 
+                          title="Cancel"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

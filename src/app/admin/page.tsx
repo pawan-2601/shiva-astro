@@ -1,19 +1,73 @@
-import { Calendar, Users, IndianRupee, TrendingUp, Clock } from "lucide-react";
+"use client";
+
+import { useState, useEffect } from "react";
+import { Calendar, Users, IndianRupee, TrendingUp, Clock, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { getAppointments, AppointmentData } from "@/lib/firebase/firestore";
+
+type Appointment = AppointmentData & { id: string };
 
 export default function AdminDashboard() {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const data = await getAppointments();
+        setAppointments(data);
+      } catch (e) {
+        console.error("Failed to load appointments for admin dashboard", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Compute stats
+  const today = new Date().toDateString();
+  const todaysAppointments = appointments.filter(apt => {
+    try {
+      return new Date(apt.appointmentDate).toDateString() === today;
+    } catch { return false; }
+  });
+  
+  const pendingReports = appointments.filter(apt => apt.status === "Pending");
+  const uniqueClients = new Set(appointments.map(apt => apt.email || apt.clientName)).size;
+  
+  // Calculate revenue for the current month
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  
+  const revenueThisMonth = appointments
+    .filter(apt => {
+      try {
+        const aptDate = new Date(apt.createdAt);
+        return aptDate.getMonth() === currentMonth && aptDate.getFullYear() === currentYear && (apt.status === "Confirmed" || apt.status === "Completed");
+      } catch { return false; }
+    })
+    .reduce((sum, apt) => sum + (Number(apt.price) || 0), 0);
+
   const stats = [
-    { label: "Today's Appointments", value: "4", icon: Calendar, color: "text-blue-600", bg: "bg-blue-100" },
-    { label: "Pending Reports", value: "12", icon: Clock, color: "text-orange-600", bg: "bg-orange-100" },
-    { label: "Total Clients", value: "1,248", icon: Users, color: "text-purple-600", bg: "bg-purple-100" },
-    { label: "Revenue (Month)", value: "₹45,200", icon: IndianRupee, color: "text-green-600", bg: "bg-green-100" },
+    { label: "Today's Appointments", value: todaysAppointments.length.toString(), icon: Calendar, color: "text-blue-600", bg: "bg-blue-100" },
+    { label: "Pending Reports", value: pendingReports.length.toString(), icon: Clock, color: "text-orange-600", bg: "bg-orange-100" },
+    { label: "Total Clients", value: uniqueClients.toString(), icon: Users, color: "text-purple-600", bg: "bg-purple-100" },
+    { label: "Revenue (Month)", value: `₹${revenueThisMonth.toLocaleString()}`, icon: IndianRupee, color: "text-green-600", bg: "bg-green-100" },
   ];
 
-  const upcomingAppointments = [
-    { id: 1, client: "Rahul Sharma", service: "Detailed Janam Kundli", time: "11:30 AM", type: "PDF Report", status: "Pending" },
-    { id: 2, client: "Priya Patel", service: "Online Video Consultation", time: "02:00 PM", type: "Zoom", status: "Confirmed" },
-    { id: 3, client: "Amit Kumar", service: "Face-to-Face Consultation", time: "04:30 PM", type: "In-Person", status: "Confirmed" },
-  ];
+  // We show up to 5 upcoming appointments (not completed/cancelled)
+  const upcomingAppointments = appointments
+    .filter(apt => apt.status === "Pending" || apt.status === "Confirmed")
+    .slice(0, 5);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="w-8 h-8 animate-spin text-[#D4AF37]" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -50,27 +104,31 @@ export default function AdminDashboard() {
             </div>
             
             <div className="space-y-4">
-              {upcomingAppointments.map((apt) => (
-                <div key={apt.id} className="flex items-center justify-between p-4 rounded-xl border border-black/5 hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5 transition-colors group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500">
-                      {apt.client.charAt(0)}
+              {upcomingAppointments.length === 0 ? (
+                <p className="text-sm text-foreground/50 py-4">No upcoming appointments found.</p>
+              ) : (
+                upcomingAppointments.map((apt) => (
+                  <div key={apt.id} className="flex items-center justify-between p-4 rounded-xl border border-black/5 hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5 transition-colors group">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-500 uppercase">
+                        {apt.clientName.charAt(0)}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-foreground group-hover:text-[#D4AF37] transition-colors">{apt.clientName}</h4>
+                        <p className="text-xs text-foreground/60">{apt.serviceName}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-foreground group-hover:text-[#D4AF37] transition-colors">{apt.client}</h4>
-                      <p className="text-xs text-foreground/60">{apt.service} • {apt.type}</p>
+                    <div className="text-right">
+                      <p className="font-bold text-sm">{apt.appointmentTime}</p>
+                      <span className={`inline-block mt-1 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
+                        apt.status === "Confirmed" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
+                      }`}>
+                        {apt.status}
+                      </span>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-sm">{apt.time}</p>
-                    <span className={`inline-block mt-1 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
-                      apt.status === "Confirmed" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                    }`}>
-                      {apt.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>

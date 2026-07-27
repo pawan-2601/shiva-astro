@@ -103,8 +103,8 @@ export default function CheckoutPage() {
             tob,
             pob,
             gender: gender || "Not Specified",
-            paymentId: response.razorpay_payment_id,
-            orderId: response.razorpay_order_id,
+            paymentId: response.razorpay_payment_id || "",
+            orderId: response.razorpay_order_id || "",
             status: "Confirmed",
           }).then((id) => {
             console.log("Saved appointment securely to DB with ID: " + id);

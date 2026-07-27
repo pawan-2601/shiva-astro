@@ -54,11 +54,7 @@ export const getUserAppointments = async (userId: string) => {
   try {
     const q = query(collection(db, "appointments"), where("userId", "==", userId));
     
-    // Use a 3-second timeout
-    const querySnapshot = await Promise.race([
-      getDocs(q),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 3000))
-    ]) as any;
+    const querySnapshot = await getDocs(q);
 
     const results = querySnapshot.docs.map((doc: any) => ({
       id: doc.id,
@@ -86,12 +82,7 @@ export type UserProfile = {
 export const getUserProfile = async (userId: string): Promise<UserProfile | null> => {
   try {
     const docRef = doc(db, "users", userId);
-    
-    // Use a 3-second timeout so the UI doesn't hang forever if Firestore is offline
-    const docSnap = await Promise.race([
-      getDoc(docRef),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 3000))
-    ]) as any;
+    const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       return docSnap.data() as UserProfile;
@@ -109,5 +100,15 @@ export const saveUserProfile = async (userId: string, data: Partial<UserProfile>
     await setDoc(docRef, data, { merge: true });
   } catch (e) {
     console.warn("Error saving user profile: ", e);
+  }
+};
+
+export const updateAppointmentStatus = async (id: string, status: "Pending" | "Confirmed" | "Completed" | "Cancelled") => {
+  try {
+    const docRef = doc(db, "appointments", id);
+    await setDoc(docRef, { status }, { merge: true });
+  } catch (e) {
+    console.warn("Error updating appointment status: ", e);
+    throw e;
   }
 };
