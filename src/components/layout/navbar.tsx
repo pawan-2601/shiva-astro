@@ -15,6 +15,11 @@ export function Navbar() {
   const { user, logout } = useAuth();
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isAdmin = pathname.startsWith("/admin");
+
+  if (isAdmin) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {

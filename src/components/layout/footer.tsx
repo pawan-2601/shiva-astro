@@ -1,8 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 export function Footer() {
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
+
+  if (isAdmin) {
+    return null;
+  }
+
   return (
     <footer className="bg-[#0F172A] text-white pt-20 pb-10 border-t border-[#D4AF37]/20 relative overflow-hidden">
       {/* Decorative background element */}
