@@ -1,5 +1,5 @@
 import { db } from "./config";
-import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, getDoc, setDoc, where } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, orderBy, Timestamp, doc, getDoc, setDoc, where, getCountFromServer } from "firebase/firestore";
 
 export type AppointmentData = {
   userId?: string;
@@ -18,12 +18,19 @@ export type AppointmentData = {
   orderId: string;
   status: "Pending" | "Confirmed" | "Completed" | "Cancelled";
   createdAt: any;
+  displayId?: string;
 };
 
-export const addAppointment = async (data: Omit<AppointmentData, "createdAt">) => {
+export const addAppointment = async (data: Omit<AppointmentData, "createdAt" | "displayId">) => {
   try {
-    const docRef = await addDoc(collection(db, "appointments"), {
+    const collRef = collection(db, "appointments");
+    const snapshot = await getCountFromServer(collRef);
+    const count = snapshot.data().count;
+    const displayId = `APT-${count + 1001}`;
+
+    const docRef = await addDoc(collRef, {
       ...data,
+      displayId,
       createdAt: Timestamp.now(),
     });
     return docRef.id;

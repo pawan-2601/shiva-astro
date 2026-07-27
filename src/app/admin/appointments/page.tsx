@@ -102,7 +102,7 @@ export default function AppointmentsPage() {
               {filteredAppointments.map((apt) => (
                 <tr key={apt.id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors group">
                   <td className="py-4 px-4">
-                    <p className="font-bold text-gray-900">{apt.id.slice(0, 8)}</p>
+                    <p className="font-bold text-gray-900">{apt.displayId || `APT-${apt.id.slice(0, 5).toUpperCase()}`}</p>
                     <p className="text-sm text-gray-500">{new Date(apt.appointmentDate).toDateString()} <br/> {apt.appointmentTime}</p>
                   </td>
                   <td className="py-4 px-4">

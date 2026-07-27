@@ -91,6 +91,7 @@ export default function DashboardPage() {
                   {appointments.map((apt) => (
                     <div key={apt.id} className="bg-white/60 p-4 rounded-xl border border-black/5 flex justify-between items-center group hover:bg-white transition-colors">
                       <div>
+                        <p className="text-xs font-mono text-foreground/40 mb-1">{apt.displayId || `APT-${apt.id.slice(0, 5).toUpperCase()}`}</p>
                         <p className="font-bold text-lg">{apt.serviceName}</p>
                         <p className="text-sm text-foreground/60">
                           {new Date(apt.appointmentDate).toDateString()} at {apt.appointmentTime}
