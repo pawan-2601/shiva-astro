@@ -94,6 +94,7 @@ export default function AppointmentsPage() {
                 <th className="pb-4 font-semibold px-4">Client Name</th>
                 <th className="pb-4 font-semibold px-4">Service</th>
                 <th className="pb-4 font-semibold px-4">Birth Details (DOB, Time, Place)</th>
+                <th className="pb-4 font-semibold px-4">Payment</th>
                 <th className="pb-4 font-semibold px-4">Status</th>
                 <th className="pb-4 font-semibold px-4 text-right">Actions</th>
               </tr>
@@ -120,6 +121,10 @@ export default function AppointmentsPage() {
                       <p><span className="text-gray-400 mr-2">Time:</span> <span className="font-medium">{apt.tob}</span></p>
                       <p><span className="text-gray-400 mr-2">Place:</span> <span className="font-medium">{apt.pob}</span></p>
                     </div>
+                  </td>
+                  <td className="py-4 px-4">
+                    <p className="font-bold text-gray-900">₹{apt.price || 0}</p>
+                    {apt.paymentId && <p className="text-[10px] text-gray-400 font-mono mt-1 w-24 break-all leading-tight" title="Payment ID">{apt.paymentId}</p>}
                   </td>
                   <td className="py-4 px-4">
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
