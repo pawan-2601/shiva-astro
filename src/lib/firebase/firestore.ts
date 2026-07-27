@@ -19,6 +19,7 @@ export type AppointmentData = {
   status: "Pending" | "Confirmed" | "Completed" | "Cancelled";
   createdAt: any;
   displayId?: string;
+  adminNotes?: string;
 };
 
 export const addAppointment = async (data: Omit<AppointmentData, "createdAt" | "displayId">) => {
@@ -116,6 +117,16 @@ export const updateAppointmentStatus = async (id: string, status: "Pending" | "C
     await setDoc(docRef, { status }, { merge: true });
   } catch (e) {
     console.warn("Error updating appointment status: ", e);
+    throw e;
+  }
+};
+
+export const updateAppointmentNotes = async (id: string, adminNotes: string) => {
+  try {
+    const docRef = doc(db, "appointments", id);
+    await setDoc(docRef, { adminNotes }, { merge: true });
+  } catch (e) {
+    console.warn("Error updating appointment notes: ", e);
     throw e;
   }
 };
