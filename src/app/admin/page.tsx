@@ -1,9 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, Users, IndianRupee, TrendingUp, Clock, Loader2 } from "lucide-react";
+import { Calendar, Users, IndianRupee, TrendingUp, Clock, Loader2, BarChart2 } from "lucide-react";
 import Link from "next/link";
 import { getAppointments, AppointmentData } from "@/lib/firebase/firestore";
+import { 
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
+  BarChart, Bar, Cell
+} from 'recharts';
 
 type Appointment = AppointmentData & { id: string };
 
@@ -61,6 +65,46 @@ export default function AdminDashboard() {
     .filter(apt => apt.status === "Pending" || apt.status === "Confirmed")
     .slice(0, 5);
 
+  // --- ANALYTICS DATA PROCESSING ---
+  const revenueDataMap = new Map<string, number>();
+  const serviceDataMap = new Map<string, number>();
+
+  appointments.forEach(apt => {
+    // Revenue Data (Confirmed/Completed only)
+    if (apt.status === "Confirmed" || apt.status === "Completed") {
+      const dateObj = new Date(apt.createdAt);
+      // Ensure valid date
+      if (!isNaN(dateObj.getTime())) {
+        const dateKey = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        revenueDataMap.set(dateKey, (revenueDataMap.get(dateKey) || 0) + (Number(apt.price) || 0));
+      }
+    }
+    
+    // Service Popularity Data (All bookings)
+    const serviceName = apt.serviceName || "Other";
+    // Shorten long names for the chart
+    let shortName = serviceName;
+    if (serviceName.includes("Kundli (Complete")) shortName = "Kundli Reading";
+    if (serviceName.includes("Matching")) shortName = "Matching";
+    if (serviceName.includes("Career")) shortName = "Career/Biz";
+    if (serviceName.includes("Online")) shortName = "Video Call";
+    if (serviceName.includes("Face-to-Face")) shortName = "In-Person";
+    
+    serviceDataMap.set(shortName, (serviceDataMap.get(shortName) || 0) + 1);
+  });
+
+  // Recharts expects an array of objects
+  const revenueData = Array.from(revenueDataMap.entries())
+    .map(([date, revenue]) => ({ date, revenue }))
+    .reverse() // Appointments are desc, we want asc (left to right chronological)
+    .slice(-7); // Show last 7 active days
+
+  const serviceData = Array.from(serviceDataMap.entries())
+    .map(([name, bookings]) => ({ name, bookings }))
+    .sort((a, b) => b.bookings - a.bookings);
+
+  const BAR_COLORS = ['#D4AF37', '#AA771C', '#1E293B', '#64748B', '#CBD5E1'];
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -71,9 +115,16 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div>
-        <h1 className="text-3xl font-serif font-bold text-foreground">Dashboard Overview</h1>
-        <p className="text-foreground/60 mt-1">Welcome back, Acharya Ji. Here is what's happening today.</p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-serif font-bold text-foreground">Dashboard Overview</h1>
+          <p className="text-foreground/60 mt-1">Welcome back, Acharya Ji. Here is what's happening today.</p>
+        </div>
+        <Link href="/admin/appointments">
+          <button className="px-6 py-2 bg-[#D4AF37] text-black font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
+            Manage Appointments
+          </button>
+        </Link>
       </div>
 
       {/* KPI Cards */}
@@ -92,6 +143,66 @@ export default function AdminDashboard() {
             </div>
           </Link>
         ))}
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Revenue Line Chart */}
+        <div className="glass p-6 rounded-2xl border border-black/5 shadow-sm bg-white/50">
+          <div className="flex items-center gap-2 mb-6">
+            <TrendingUp className="text-[#D4AF37] w-5 h-5" />
+            <h2 className="text-xl font-bold font-serif">Revenue Trends (Last 7 Days)</h2>
+          </div>
+          <div className="h-64 w-full">
+            {revenueData.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={revenueData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} tickFormatter={(val) => `₹${val}`} />
+                  <RechartsTooltip 
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                    formatter={(value: number) => [`₹${value}`, 'Revenue']}
+                  />
+                  <Line type="monotone" dataKey="revenue" stroke="#D4AF37" strokeWidth={3} dot={{ r: 4, fill: '#D4AF37', strokeWidth: 0 }} activeDot={{ r: 6, fill: '#AA771C' }} />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">Not enough revenue data yet.</div>
+            )}
+          </div>
+        </div>
+
+        {/* Popular Services Bar Chart */}
+        <div className="glass p-6 rounded-2xl border border-black/5 shadow-sm bg-white/50">
+          <div className="flex items-center gap-2 mb-6">
+            <BarChart2 className="text-[#D4AF37] w-5 h-5" />
+            <h2 className="text-xl font-bold font-serif">Popular Services</h2>
+          </div>
+          <div className="h-64 w-full">
+            {serviceData.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={serviceData} margin={{ top: 5, right: 20, bottom: 5, left: -20 }} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
+                  <XAxis type="number" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
+                  <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} width={100} />
+                  <RechartsTooltip 
+                    cursor={{ fill: '#f8fafc' }}
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                    formatter={(value: number) => [value, 'Bookings']}
+                  />
+                  <Bar dataKey="bookings" radius={[0, 4, 4, 0]}>
+                    {serviceData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={BAR_COLORS[index % BAR_COLORS.length]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">Not enough service data yet.</div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -140,9 +251,9 @@ export default function AdminDashboard() {
           <div className="glass-dark p-6 rounded-2xl border border-[#D4AF37]/20 shadow-md text-white">
             <h2 className="text-xl font-bold font-serif mb-4 text-[#D4AF37]">Quick Actions</h2>
             <div className="space-y-3">
-              <button className="w-full text-left px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-sm font-medium">
+              <Link href="/admin/appointments" className="w-full text-left px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-sm font-medium block">
                 + Add Manual Appointment
-              </button>
+              </Link>
               <button className="w-full text-left px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-sm font-medium">
                 📄 Generate Kundli Report
               </button>
