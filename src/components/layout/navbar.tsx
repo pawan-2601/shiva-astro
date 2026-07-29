@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import { Menu, X, PhoneCall, User, LogOut } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, PhoneCall, User, LogOut, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 
@@ -38,81 +38,111 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled || !isHome ? "glass-dark py-3" : "bg-transparent py-5"
+      className={`fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent ${
+        isScrolled 
+          ? "bg-white/80 dark:bg-black/80 backdrop-blur-xl border-gray-200 dark:border-white/10 shadow-premium py-3" 
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#AA771C] flex items-center justify-center text-[#0F2027] font-serif font-bold text-xl">
+        <Link href="/" className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg p-1">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-[#AA771C] flex items-center justify-center text-primary font-serif font-bold text-xl shadow-md group-hover:scale-105 transition-transform">
             S
           </div>
           <div className="flex flex-col">
-            <span className="font-serif font-bold text-xl tracking-wider text-white">
+            <span className={`font-serif font-bold text-xl tracking-wide transition-colors ${isScrolled || !isHome ? 'text-primary' : 'text-white'}`}>
               SHIVA ASTRO
             </span>
-            <span className="text-[10px] tracking-[0.2em] text-[#D4AF37] uppercase">
+            <span className="text-[10px] tracking-[0.2em] text-accent font-semibold uppercase">
               Solutions
             </span>
           </div>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-base text-white/90 font-medium hover:text-[#D4AF37] transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
+        <nav className="hidden md:flex items-center gap-1 bg-surface/50 backdrop-blur-md px-2 py-1 rounded-full border border-border/50">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                  isActive 
+                    ? "bg-primary text-primary-foreground shadow-sm" 
+                    : `${isScrolled || !isHome ? 'text-foreground/70 hover:text-primary hover:bg-surface-hover' : 'text-white/80 hover:text-white hover:bg-white/10'}`
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* CTA Button & Auth */}
         <div className="hidden md:flex items-center gap-4">
-          <Button variant="outline" size="sm" className="hidden lg:flex gap-2">
-            <PhoneCall className="w-4 h-4" />
-            <span>+91 98927 84073</span>
-          </Button>
+          <a href="tel:+919892784073" className="outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full">
+            <Button variant="outline" size="sm" className={`hidden lg:flex gap-2 rounded-full border-border/50 ${!isScrolled && isHome ? 'bg-white/10 text-white border-white/20 hover:bg-white/20 hover:text-white' : ''}`}>
+              <PhoneCall className="w-4 h-4" />
+              <span>+91 98927 84073</span>
+            </Button>
+          </a>
 
           {user ? (
             <div className="relative">
               <button 
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                className="w-10 h-10 rounded-full bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] border border-[#D4AF37]/30 hover:bg-[#D4AF37]/20 transition-colors"
+                className={`w-10 h-10 rounded-full flex items-center justify-center border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                  isScrolled || !isHome 
+                    ? 'bg-surface border-border text-primary hover:bg-surface-hover' 
+                    : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                }`}
+                aria-label="User profile"
+                aria-expanded={profileDropdownOpen}
               >
                 <User className="w-5 h-5" />
               </button>
               
-              {profileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 glass-dark rounded-xl border border-[#D4AF37]/20 shadow-xl overflow-hidden flex flex-col">
-                  <div className="px-4 py-3 border-b border-[#D4AF37]/10">
-                    <p className="text-sm font-medium text-white truncate">{user.displayName || "User"}</p>
-                    <p className="text-xs text-white/60 truncate">{user.email || user.phoneNumber}</p>
-                  </div>
-                  <Link href="/dashboard" className="px-4 py-2 text-sm text-white hover:bg-white/5 transition-colors" onClick={() => setProfileDropdownOpen(false)}>
-                    Dashboard
-                  </Link>
-                  <button 
-                    onClick={() => { logout(); setProfileDropdownOpen(false); }}
-                    className="px-4 py-2 text-sm text-left text-red-400 hover:bg-red-400/10 transition-colors flex items-center gap-2"
+              <AnimatePresence>
+                {profileDropdownOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-3 w-56 bg-surface rounded-2xl border border-border shadow-premium overflow-hidden flex flex-col z-50"
                   >
-                    <LogOut className="w-4 h-4" />
-                    Sign Out
-                  </button>
-                </div>
-              )}
+                    <div className="px-4 py-4 border-b border-border bg-surface-hover/50">
+                      <p className="text-sm font-bold text-primary truncate">{user.displayName || "User"}</p>
+                      <p className="text-xs text-foreground/60 truncate mt-0.5">{user.email || user.phoneNumber}</p>
+                    </div>
+                    <div className="p-2">
+                      <Link href="/dashboard" className="flex items-center justify-between px-3 py-2 text-sm text-foreground font-medium rounded-lg hover:bg-surface-hover transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent" onClick={() => setProfileDropdownOpen(false)}>
+                        <span>Dashboard</span>
+                        <ChevronRight className="w-4 h-4 opacity-50" />
+                      </Link>
+                      <button 
+                        onClick={() => { logout(); setProfileDropdownOpen(false); }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-left text-red-600 font-medium rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors mt-1 outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <Link href="/login">
-                <Button variant="ghost" size="sm">Login</Button>
+            <div className="flex items-center gap-3">
+              <Link href="/login" className="outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full">
+                <Button variant="ghost" size="sm" className={`rounded-full font-medium ${!isScrolled && isHome ? 'text-white hover:bg-white/10 hover:text-white' : ''}`}>Login</Button>
               </Link>
-              <Link href="/register">
-                <Button size="sm">Sign Up</Button>
+              <Link href="/register" className="outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full">
+                <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium shadow-md hover:shadow-lg transition-all hover-lift">
+                  Sign Up
+                </Button>
               </Link>
             </div>
           )}
@@ -120,36 +150,79 @@ export function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-white p-2"
+          className={`md:hidden p-2 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-accent ${isScrolled || !isHome ? 'text-primary hover:bg-surface-hover' : 'text-white hover:bg-white/10'}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle mobile menu"
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile Nav */}
-      {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="absolute top-full left-0 w-full glass-dark border-b border-[#D4AF37]/20 shadow-2xl py-6 px-4 md:hidden flex flex-col gap-4"
-        >
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-lg text-white/90 font-medium p-3 hover:bg-white/5 rounded-lg transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <Link href="/services" onClick={() => setMobileMenuOpen(false)}>
-            <Button className="w-full mt-4">Book Appointment</Button>
-          </Link>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-surface border-b border-border shadow-2xl overflow-hidden"
+          >
+            <div className="container mx-auto px-4 py-6 flex flex-col gap-2">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`text-lg font-medium p-4 rounded-xl transition-colors flex items-center justify-between ${isActive ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-surface-hover'}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                    <ChevronRight className={`w-5 h-5 ${isActive ? 'opacity-100' : 'opacity-30'}`} />
+                  </Link>
+                );
+              })}
+              
+              <div className="border-t border-border mt-4 pt-6 flex flex-col gap-3">
+                {user ? (
+                  <>
+                    <div className="flex items-center gap-3 px-2 mb-2">
+                      <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                        <User className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-primary">{user.displayName || "User"}</p>
+                        <p className="text-sm text-foreground/60">{user.email || user.phoneNumber}</p>
+                      </div>
+                    </div>
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      <Button className="w-full rounded-xl" variant="outline" size="lg">My Dashboard</Button>
+                    </Link>
+                    <Button 
+                      className="w-full rounded-xl bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border-none" 
+                      variant="outline" 
+                      size="lg"
+                      onClick={() => { logout(); setMobileMenuOpen(false); }}
+                    >
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                      <Button className="w-full rounded-xl" variant="outline" size="lg">Login</Button>
+                    </Link>
+                    <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                      <Button className="w-full rounded-xl" size="lg">Sign Up</Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

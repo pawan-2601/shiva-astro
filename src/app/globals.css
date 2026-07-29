@@ -3,25 +3,60 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   
-  --color-brand-blue: #0F2027; /* Deep Royal Blue / Night Sky */
-  --color-brand-purple: #200122; /* Deep Spiritual Purple */
-  --color-brand-gold: #D4AF37; /* Metallic Gold */
+  --color-brand-blue: #0F2027;
+  --color-brand-gold: #D4AF37;
   --color-brand-gold-light: #F3E5AB;
-  --color-brand-ivory: #FFFFF0; /* Ivory White */
 }
 
 :root {
-  --background: #FFFFF0;
-  --foreground: #0F2027;
+  /* Clean, Stripe-like Ivory/White Theme */
+  --background: #FAFAFA;
+  --foreground: #111827; /* Gray 900 */
+  --surface: #FFFFFF;
+  --surface-hover: #F3F4F6;
+  --border: #E5E7EB;
+  
+  --primary: #111827;
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #F3F4F6;
+  --secondary-foreground: #111827;
+  
+  --accent: #D4AF37; /* Premium Gold */
+  --accent-foreground: #FFFFFF;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0F172A; /* Deep dark blue background */
-    --foreground: #FFFFF0;
+    /* Linear-like Deep Dark Theme */
+    --background: #09090B; /* Deep Zinc */
+    --foreground: #FAFAFA;
+    --surface: #18181B; /* Zinc 900 */
+    --surface-hover: #27272A; /* Zinc 800 */
+    --border: #27272A;
+    
+    --primary: #FAFAFA;
+    --primary-foreground: #09090B;
+    
+    --secondary: #27272A;
+    --secondary-foreground: #FAFAFA;
+    
+    --accent: #D4AF37; /* Premium Gold stays constant */
+    --accent-foreground: #09090B;
   }
 }
 
@@ -30,30 +65,33 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Glassmorphism Utilities */
 .glass {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .glass-dark {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.2); /* Subtle gold border */
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.15); /* Subtle gold border */
 }
 
-/* Elegant Gradients */
+/* Premium Shadows */
+.shadow-premium {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03), 0 20px 25px -5px rgba(0, 0, 0, 0.02);
+}
+
+/* Gradients */
 .bg-gradient-luxury {
   background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
-}
-
-.bg-gradient-spiritual {
-  background: linear-gradient(135deg, #200122 0%, #6F0000 100%);
 }
 
 .text-gradient-gold {
@@ -61,4 +99,13 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Micro-animations */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
