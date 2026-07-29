@@ -109,21 +109,34 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent rounded-full blur-3xl" />
             <div className="relative aspect-square w-full max-w-lg mx-auto rounded-full glass-dark border border-[#D4AF37]/30 flex items-center justify-center p-8 shadow-2xl">
                {/* Majestic Swastik container */}
-               <div className="w-full h-full rounded-full flex items-center justify-center relative bg-[#D4AF37]/5">
-                  {/* Rotating Circles */}
-                  <div className="absolute inset-0 rounded-full border border-dashed border-[#D4AF37]/50 animate-[spin_60s_linear_infinite]" />
-                  <div className="absolute inset-0 rounded-full border border-[#D4AF37]/30 scale-75 animate-[spin_40s_linear_infinite_reverse]" />
+               <div className="w-full h-full rounded-full flex items-center justify-center relative bg-[#D4AF37]/5 shadow-[inset_0_0_50px_rgba(212,175,55,0.05)]">
+                  {/* Rotating Outer Circle */}
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#D4AF37]/40 animate-[spin_30s_linear_infinite]">
+                     <div className="absolute -top-[4px] left-1/2 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_2px_#D4AF37] -translate-x-1/2" />
+                     <div className="absolute bottom-[15%] left-[5%] w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_1px_#ffffff]" />
+                  </div>
+                  
+                  {/* Rotating Inner Circle */}
+                  <div className="absolute inset-0 rounded-full border border-[#D4AF37]/20 scale-[0.75] animate-[spin_40s_linear_infinite_reverse]">
+                     <div className="absolute -bottom-[4px] left-1/2 w-2.5 h-2.5 rounded-full bg-[#D4AF37] shadow-[0_0_15px_2px_#D4AF37] -translate-x-1/2" />
+                     <div className="absolute top-1/2 -right-[4px] w-1.5 h-1.5 rounded-full bg-[#F3E5AB] shadow-[0_0_10px_1px_#D4AF37] -translate-y-1/2" />
+                  </div>
+
+                  {/* Innermost Accents */}
+                  <div className="absolute inset-0 rounded-full border border-[#D4AF37]/10 scale-[0.55] animate-[spin_50s_linear_infinite]">
+                     <div className="absolute top-[15%] right-[15%] w-1.5 h-1.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_1px_#D4AF37]" />
+                  </div>
                   
                   {/* Static SVG */}
-                  <div className="relative z-10 w-3/4 h-3/4 flex items-center justify-center">
-                     <svg viewBox="0 0 100 100" className="w-2/3 h-2/3 text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
+                  <div className="relative z-10 w-[55%] h-[55%] flex items-center justify-center">
+                     <svg viewBox="0 0 100 100" className="w-[80%] h-[80%] text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
                         {/* Arms */}
-                        <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
                         {/* Dots */}
-                        <circle cx="70" cy="30" r="5" fill="currentColor" />
-                        <circle cx="70" cy="70" r="5" fill="currentColor" />
-                        <circle cx="30" cy="70" r="5" fill="currentColor" />
-                        <circle cx="30" cy="30" r="5" fill="currentColor" />
+                        <circle cx="70" cy="30" r="4.5" fill="currentColor" />
+                        <circle cx="70" cy="70" r="4.5" fill="currentColor" />
+                        <circle cx="30" cy="70" r="4.5" fill="currentColor" />
+                        <circle cx="30" cy="30" r="4.5" fill="currentColor" />
                      </svg>
                   </div>
                </div>
