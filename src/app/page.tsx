@@ -28,84 +28,94 @@ export default function Home() {
         PREMIUM HERO SECTION (STRIPE/LINEAR VIBE)
         ========================================
       */}
-      <section className="relative min-h-[95vh] flex items-center justify-center overflow-hidden pt-20 pb-16">
-        {/* Abstract Background Gradients */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#200122]/5 dark:bg-[#200122]/30 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen" />
+      {/* 
+        ========================================
+        ORIGINAL PREMIUM HERO SECTION
+        ========================================
+      */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-luxury">
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#D4AF37] rounded-full blur-[100px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#200122] rounded-full blur-[120px]" />
         </div>
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col items-center text-center max-w-4xl mx-auto space-y-8">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border shadow-sm text-sm font-medium hover-lift"
-            >
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-foreground/80">45+ Years of Vedic Excellence</span>
-              <span className="w-px h-4 bg-border mx-2" />
-              <span className="text-accent font-semibold flex items-center">
-                Book Now <ChevronRight className="w-3 h-3 ml-1" />
-              </span>
-            </motion.div>
+        <div className="container mx-auto px-4 md:px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center pt-20 pb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-dark text-[#D4AF37] text-sm font-medium border border-[#D4AF37]/30">
+              <Sparkles className="w-4 h-4" />
+              <span>45+ Years of Vedic Excellence</span>
+            </div>
             
-            <motion.h1 
-              {...fadeUp}
-              className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-primary tracking-tight leading-[1.1]"
-            >
-              Clarity for your <br className="hidden md:block" />
-              <span className="text-gradient-gold">life's journey.</span>
-            </motion.h1>
+            <div className="text-[#D4AF37] font-serif italic text-lg sm:text-xl font-medium tracking-wide">
+              "धर्मेण हन्यते व्याधिः, धर्मेण हन्यते ग्रहाः। <br className="hidden sm:block" />
+              धर्मेण हन्यते शत्रुः, यतो धर्म ततो जयः।।"
+            </div>
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight">
+              Discover Your <br />
+              <span className="text-gradient-gold">True Path</span>
+            </h1>
             
-            <motion.p 
-              {...fadeUp} transition={{ delay: 0.1, duration: 0.6 }}
-              className="text-lg md:text-xl text-foreground/70 max-w-2xl leading-relaxed"
-            >
-              Premium astrological consultations guided by timeless Vedic traditions. Make confident decisions in your career, relationships, and health.
-            </motion.p>
+            <p className="text-lg md:text-xl text-white/80 max-w-xl leading-relaxed">
+              Premium astrological consultations guided by the timeless wisdom of Vedic traditions. Find clarity in career, relationships, and life's journey.
+            </p>
             
-            <motion.div 
-              {...fadeUp} transition={{ delay: 0.2, duration: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto"
-            >
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
               <Link 
                 href="/services" 
-                className="w-full sm:w-auto inline-flex h-14 px-10 text-lg items-center justify-center rounded-full font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-primary text-primary-foreground hover:bg-primary/90 shadow-premium hover-lift transition-all"
+                className="w-full sm:w-auto inline-flex h-14 px-10 text-lg items-center justify-center rounded-full font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-gradient-to-r from-[#D4AF37] to-[#AA771C] text-[#0F2027] shadow-[0_4px_14px_0_rgba(212,175,55,0.39)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.23)] border border-[#F3E5AB]/50 transition-all hover-lift"
               >
-                Book Consultation
+                  Book Consultation
               </Link>
               <a href="tel:+919892784073" className="w-full sm:w-auto outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full">
-                <Button size="lg" variant="outline" className="w-full h-14 px-8 text-lg rounded-full border-border bg-surface hover:bg-surface-hover text-foreground hover-lift shadow-sm">
+                <Button size="lg" variant="outline" className="w-full h-14 px-8 text-lg rounded-full border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white transition-colors hover-lift">
                   <Phone className="w-5 h-5 mr-2" />
-                  Call Now
+                  Call +91 98927 84073
                 </Button>
               </a>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              {...fadeUp} transition={{ delay: 0.3, duration: 0.6 }}
-              className="flex flex-col sm:flex-row items-center gap-4 pt-12"
-            >
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-surface-hover flex items-center justify-center overflow-hidden shadow-sm">
-                    {/* Placeholder for real user avatars */}
-                    <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-zinc-700 dark:to-zinc-800" />
+            <div className="flex items-center gap-6 pt-4 border-t border-white/10 mt-8">
+              <div className="flex -space-x-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-[#0F2027] bg-white/10 flex items-center justify-center overflow-hidden shadow-sm">
+                    <span className="text-white text-xs font-medium">{i}</span>
                   </div>
                 ))}
               </div>
-              <div className="flex flex-col items-center sm:items-start">
-                <div className="flex text-accent gap-0.5">
+              <div>
+                <div className="flex text-[#D4AF37] gap-0.5">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
-                <p className="text-foreground/60 text-sm font-medium mt-1">Trusted by 10,000+ satisfied clients</p>
+                <p className="text-white/70 text-sm font-medium mt-1">Trusted by 10,000+ Clients</p>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="relative hidden lg:block"
+          >
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent rounded-full blur-3xl" />
+            <div className="relative aspect-square w-full max-w-lg mx-auto rounded-full glass-dark border border-[#D4AF37]/30 flex items-center justify-center p-8 shadow-2xl">
+               {/* Majestic Zodiac / Astrolabe image */}
+               <div className="w-full h-full rounded-full border border-dashed border-[#D4AF37]/50 animate-[spin_60s_linear_infinite] flex items-center justify-center">
+                  <div className="w-3/4 h-3/4 rounded-full border border-[#D4AF37]/30 flex items-center justify-center">
+                     <span className="font-serif text-[#D4AF37] text-2xl tracking-widest uppercase opacity-80">Zodiac</span>
+                  </div>
+               </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
