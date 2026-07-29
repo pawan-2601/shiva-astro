@@ -108,9 +108,14 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent rounded-full blur-3xl" />
             <div className="relative aspect-square w-full max-w-lg mx-auto rounded-full glass-dark border border-[#D4AF37]/30 flex items-center justify-center p-8 shadow-2xl">
-               {/* Majestic Swastik image */}
-               <div className="w-full h-full rounded-full border border-dashed border-[#D4AF37]/50 flex items-center justify-center relative bg-[#D4AF37]/5">
-                  <div className="w-3/4 h-3/4 rounded-full border border-[#D4AF37]/30 flex items-center justify-center">
+               {/* Majestic Swastik container */}
+               <div className="w-full h-full rounded-full flex items-center justify-center relative bg-[#D4AF37]/5">
+                  {/* Rotating Circles */}
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#D4AF37]/50 animate-[spin_60s_linear_infinite]" />
+                  <div className="absolute inset-0 rounded-full border border-[#D4AF37]/30 scale-75 animate-[spin_40s_linear_infinite_reverse]" />
+                  
+                  {/* Static SVG */}
+                  <div className="relative z-10 w-3/4 h-3/4 flex items-center justify-center">
                      <svg viewBox="0 0 100 100" className="w-2/3 h-2/3 text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
                         {/* Arms */}
                         <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
