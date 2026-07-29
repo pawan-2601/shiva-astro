@@ -108,55 +108,44 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent rounded-full blur-3xl" />
             <div className="relative aspect-square w-full max-w-lg mx-auto rounded-full glass-dark border border-[#D4AF37]/30 flex items-center justify-center p-8 shadow-2xl">
-               {/* Majestic Swastik container */}
-               <div className="w-full h-full rounded-full flex items-center justify-center relative bg-[#D4AF37]/5 shadow-[inset_0_0_50px_rgba(212,175,55,0.05)]">
+               {/* Majestic Solar System Container */}
+               <div className="w-full h-full rounded-full flex items-center justify-center relative bg-[#D4AF37]/5 shadow-[inset_0_0_60px_rgba(212,175,55,0.1)]">
                   
-                  {/* Highly Visible Rotating Mandala Border (Outer) */}
-                  <div className="absolute inset-0 flex items-center justify-center animate-[spin_20s_linear_infinite]">
-                     <svg viewBox="0 0 100 100" className="w-[95%] h-[95%] text-[#D4AF37]">
-                        <defs>
-                           <g id="mini-swastik" transform="translate(0, -48) scale(0.08)">
-                              <path d="M0,-40 L0,40 M-40,0 L40,0 M0,-40 L40,-40 M40,0 L40,40 M0,40 L-40,40 M-40,0 L-40,-40" fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
-                           </g>
-                        </defs>
-                        <g transform="translate(50, 50)">
-                           {[0,30,60,90,120,150,180,210,240,270,300,330].map((angle) => (
-                             <use key={angle} href="#mini-swastik" transform={`rotate(${angle})`} />
-                           ))}
-                        </g>
-                        {/* Connecting rings */}
-                        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
-                        <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="1 4" className="opacity-70" />
-                     </svg>
+                  {/* Orbit 1 (Mercury - Fast, Small) */}
+                  <div className="absolute w-[45%] h-[45%] rounded-full border border-[#D4AF37]/20 animate-[spin_10s_linear_infinite]">
+                     <div className="absolute -top-[3px] left-1/2 w-1.5 h-1.5 rounded-full bg-slate-300 shadow-[0_0_8px_2px_#cbd5e1] -translate-x-1/2" />
                   </div>
 
-                  {/* Inner Rotating Star Ring */}
-                  <div className="absolute inset-0 flex items-center justify-center animate-[spin_25s_linear_infinite_reverse]">
-                     <svg viewBox="0 0 100 100" className="w-[75%] h-[75%] text-[#D4AF37]">
-                        <defs>
-                           <g id="mini-star" transform="translate(0, -45) scale(0.15)">
-                              <path d="M0,-20 L5,-5 L20,0 L5,5 L0,20 L-5,5 L-20,0 L-5,-5 Z" fill="currentColor" />
-                           </g>
-                        </defs>
-                        <g transform="translate(50, 50)">
-                           {[0,45,90,135,180,225,270,315].map((angle) => (
-                             <use key={angle} href="#mini-star" transform={`rotate(${angle})`} />
-                           ))}
-                        </g>
-                        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" className="opacity-30" />
-                     </svg>
+                  {/* Orbit 2 (Venus - Bright) */}
+                  <div className="absolute w-[58%] h-[58%] rounded-full border border-[#D4AF37]/20 animate-[spin_18s_linear_infinite]">
+                     <div className="absolute top-[14%] right-[14%] w-2 h-2 rounded-full bg-orange-100 shadow-[0_0_12px_2px_#ffedd5]" />
+                  </div>
+
+                  {/* Orbit 3 (Mars - Red) */}
+                  <div className="absolute w-[71%] h-[71%] rounded-full border border-[#D4AF37]/20 animate-[spin_28s_linear_infinite]">
+                     <div className="absolute -bottom-[4px] left-1/2 w-2 h-2 rounded-full bg-red-400 shadow-[0_0_12px_2px_#f87171] -translate-x-1/2" />
+                  </div>
+
+                  {/* Orbit 4 (Jupiter - Large, Yellow) */}
+                  <div className="absolute w-[84%] h-[84%] rounded-full border border-[#D4AF37]/20 animate-[spin_45s_linear_infinite]">
+                     <div className="absolute top-1/2 -left-[5px] w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_15px_3px_#facc15] -translate-y-1/2" />
+                  </div>
+
+                  {/* Orbit 5 (Saturn - Distant, Slow) */}
+                  <div className="absolute w-[97%] h-[97%] rounded-full border border-dashed border-[#D4AF37]/30 animate-[spin_65s_linear_infinite]">
+                     <div className="absolute bottom-[14%] right-[14%] w-2.5 h-2.5 rounded-full bg-blue-300 shadow-[0_0_12px_2px_#93c5fd]" />
                   </div>
                   
-                  {/* Static Center Swastik SVG */}
-                  <div className="relative z-10 w-[50%] h-[50%] flex items-center justify-center">
-                     <svg viewBox="0 0 100 100" className="w-[80%] h-[80%] text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
+                  {/* Static Center Swastik SVG (The Sun) */}
+                  <div className="relative z-10 w-[35%] h-[35%] flex items-center justify-center animate-pulse">
+                     <svg viewBox="0 0 100 100" className="w-[90%] h-[90%] text-[#D4AF37] drop-shadow-[0_0_35px_rgba(212,175,55,0.8)]">
                         {/* Arms */}
-                        <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                         {/* Dots */}
-                        <circle cx="70" cy="30" r="4.5" fill="currentColor" />
-                        <circle cx="70" cy="70" r="4.5" fill="currentColor" />
-                        <circle cx="30" cy="70" r="4.5" fill="currentColor" />
-                        <circle cx="30" cy="30" r="4.5" fill="currentColor" />
+                        <circle cx="70" cy="30" r="5" fill="currentColor" />
+                        <circle cx="70" cy="70" r="5" fill="currentColor" />
+                        <circle cx="30" cy="70" r="5" fill="currentColor" />
+                        <circle cx="30" cy="30" r="5" fill="currentColor" />
                      </svg>
                   </div>
                </div>
