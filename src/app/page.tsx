@@ -104,14 +104,22 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="relative hidden lg:block"
+            className="relative hidden lg:block lg:-translate-y-16"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent rounded-full blur-3xl" />
             <div className="relative aspect-square w-full max-w-lg mx-auto rounded-full glass-dark border border-[#D4AF37]/30 flex items-center justify-center p-8 shadow-2xl">
-               {/* Majestic Zodiac / Astrolabe image */}
-               <div className="w-full h-full rounded-full border border-dashed border-[#D4AF37]/50 animate-[spin_60s_linear_infinite] flex items-center justify-center">
+               {/* Majestic Swastik image */}
+               <div className="w-full h-full rounded-full border border-dashed border-[#D4AF37]/50 flex items-center justify-center relative bg-[#D4AF37]/5">
                   <div className="w-3/4 h-3/4 rounded-full border border-[#D4AF37]/30 flex items-center justify-center">
-                     <span className="font-serif text-[#D4AF37] text-2xl tracking-widest uppercase opacity-80">Zodiac</span>
+                     <svg viewBox="0 0 100 100" className="w-2/3 h-2/3 text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
+                        {/* Arms */}
+                        <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                        {/* Dots */}
+                        <circle cx="70" cy="30" r="5" fill="currentColor" />
+                        <circle cx="70" cy="70" r="5" fill="currentColor" />
+                        <circle cx="30" cy="70" r="5" fill="currentColor" />
+                        <circle cx="30" cy="30" r="5" fill="currentColor" />
+                     </svg>
                   </div>
                </div>
             </div>
