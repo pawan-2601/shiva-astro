@@ -19,6 +19,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { BookingProvider } from "@/context/BookingContext";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://loquacious-starlight-a7767b.netlify.app"),
   title: "Shiva Astro Solutions | Premium Vedic Astrology by Acharya Shri Shiv Kumar Shukla",
   description: "Authentic Vedic astrology consultations by Acharya Shri Shiv Kumar Shukla with over 45 years of experience. Get clarity on career, relationships, and health.",
   keywords: ["Vedic Astrology", "Janam Kundli", "Kundli Matching", "Best Astrologer in Navi Mumbai", "Career Astrology", "Online Astrologer"],
