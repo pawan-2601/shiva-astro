@@ -137,8 +137,8 @@ export default function Home() {
                   </div>
                   
                   {/* Static Center Swastik SVG (The Sun) */}
-                  <div className="relative z-10 w-[35%] h-[35%] flex items-center justify-center animate-pulse">
-                     <svg viewBox="0 0 100 100" className="w-[90%] h-[90%] text-[#D4AF37] drop-shadow-[0_0_35px_rgba(212,175,55,0.8)]">
+                  <div className="relative z-10 w-[25%] h-[25%] flex items-center justify-center animate-pulse">
+                     <svg viewBox="0 0 100 100" className="w-full h-full text-[#D4AF37] drop-shadow-[0_0_35px_rgba(212,175,55,0.8)]">
                         {/* Arms */}
                         <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                         {/* Dots */}
