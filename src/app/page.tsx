@@ -193,6 +193,7 @@ export default function Home() {
                   src="/acharya.jpg" 
                   alt="Acharya Shri Shiv Kumar Shukla" 
                   fill 
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                 />
                 {/* Elegant overlay gradient */}
