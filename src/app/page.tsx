@@ -110,25 +110,45 @@ export default function Home() {
             <div className="relative aspect-square w-full max-w-lg mx-auto rounded-full glass-dark border border-[#D4AF37]/30 flex items-center justify-center p-8 shadow-2xl">
                {/* Majestic Swastik container */}
                <div className="w-full h-full rounded-full flex items-center justify-center relative bg-[#D4AF37]/5 shadow-[inset_0_0_50px_rgba(212,175,55,0.05)]">
-                  {/* Rotating Outer Circle */}
-                  <div className="absolute inset-0 rounded-full border border-dashed border-[#D4AF37]/40 animate-[spin_30s_linear_infinite]">
-                     <div className="absolute -top-[4px] left-1/2 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_12px_2px_#D4AF37] -translate-x-1/2" />
-                     <div className="absolute bottom-[15%] left-[5%] w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_1px_#ffffff]" />
-                  </div>
                   
-                  {/* Rotating Inner Circle */}
-                  <div className="absolute inset-0 rounded-full border border-[#D4AF37]/20 scale-[0.75] animate-[spin_40s_linear_infinite_reverse]">
-                     <div className="absolute -bottom-[4px] left-1/2 w-2.5 h-2.5 rounded-full bg-[#D4AF37] shadow-[0_0_15px_2px_#D4AF37] -translate-x-1/2" />
-                     <div className="absolute top-1/2 -right-[4px] w-1.5 h-1.5 rounded-full bg-[#F3E5AB] shadow-[0_0_10px_1px_#D4AF37] -translate-y-1/2" />
+                  {/* Highly Visible Rotating Mandala Border (Outer) */}
+                  <div className="absolute inset-0 flex items-center justify-center animate-[spin_20s_linear_infinite]">
+                     <svg viewBox="0 0 100 100" className="w-[95%] h-[95%] text-[#D4AF37]">
+                        <defs>
+                           <g id="mini-swastik" transform="translate(0, -48) scale(0.08)">
+                              <path d="M0,-40 L0,40 M-40,0 L40,0 M0,-40 L40,-40 M40,0 L40,40 M0,40 L-40,40 M-40,0 L-40,-40" fill="none" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
+                           </g>
+                        </defs>
+                        <g transform="translate(50, 50)">
+                           {[0,30,60,90,120,150,180,210,240,270,300,330].map((angle) => (
+                             <use key={angle} href="#mini-swastik" transform={`rotate(${angle})`} />
+                           ))}
+                        </g>
+                        {/* Connecting rings */}
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.5" className="opacity-50" />
+                        <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="1 4" className="opacity-70" />
+                     </svg>
                   </div>
 
-                  {/* Innermost Accents */}
-                  <div className="absolute inset-0 rounded-full border border-[#D4AF37]/10 scale-[0.55] animate-[spin_50s_linear_infinite]">
-                     <div className="absolute top-[15%] right-[15%] w-1.5 h-1.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_1px_#D4AF37]" />
+                  {/* Inner Rotating Star Ring */}
+                  <div className="absolute inset-0 flex items-center justify-center animate-[spin_25s_linear_infinite_reverse]">
+                     <svg viewBox="0 0 100 100" className="w-[75%] h-[75%] text-[#D4AF37]">
+                        <defs>
+                           <g id="mini-star" transform="translate(0, -45) scale(0.15)">
+                              <path d="M0,-20 L5,-5 L20,0 L5,5 L0,20 L-5,5 L-20,0 L-5,-5 Z" fill="currentColor" />
+                           </g>
+                        </defs>
+                        <g transform="translate(50, 50)">
+                           {[0,45,90,135,180,225,270,315].map((angle) => (
+                             <use key={angle} href="#mini-star" transform={`rotate(${angle})`} />
+                           ))}
+                        </g>
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" className="opacity-30" />
+                     </svg>
                   </div>
                   
-                  {/* Static SVG */}
-                  <div className="relative z-10 w-[55%] h-[55%] flex items-center justify-center">
+                  {/* Static Center Swastik SVG */}
+                  <div className="relative z-10 w-[50%] h-[50%] flex items-center justify-center">
                      <svg viewBox="0 0 100 100" className="w-[80%] h-[80%] text-[#D4AF37] drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">
                         {/* Arms */}
                         <path d="M50,15 L50,85 M15,50 L85,50 M50,15 L85,15 M85,50 L85,85 M50,85 L15,85 M15,50 L15,15" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
