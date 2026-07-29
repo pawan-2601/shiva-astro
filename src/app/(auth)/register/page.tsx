@@ -67,18 +67,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-      <div className="absolute inset-0 bg-gradient-spiritual opacity-10 pointer-events-none" />
-      
-      <div className="w-full max-w-md space-y-8 glass p-8 sm:p-10 rounded-3xl border border-[#D4AF37]/30 shadow-2xl relative z-10">
+    <div className="min-h-[80vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 bg-background relative">
+      <div className="w-full max-w-md space-y-8 bg-surface p-10 rounded-[2rem] border border-border shadow-premium relative z-10">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D4AF37]/10 mb-4 border border-[#D4AF37]/30 text-[#D4AF37]">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 mb-6 text-accent">
             <Sparkles className="w-8 h-8" />
           </div>
-          <h2 className="text-3xl font-serif font-bold tracking-tight text-foreground">
+          <h2 className="text-3xl font-serif font-bold tracking-tight text-primary">
             {step === "otp" ? "Verify OTP" : "Begin Your Journey"}
           </h2>
-          <p className="mt-2 text-sm text-foreground/70">
+          <p className="mt-3 text-base font-medium text-foreground/60">
             {step === "otp" 
               ? `We sent a code to ${phone}`
               : "Create an account to book consultations and receive personalized insights."}
@@ -86,34 +84,34 @@ export default function RegisterPage() {
         </div>
 
         {error && (
-          <div className="p-3 text-sm text-red-600 bg-red-100/50 border border-red-200 rounded-xl text-center">
+          <div className="p-4 text-sm font-bold text-red-600 bg-red-100/50 border border-red-200 rounded-xl text-center">
             {error}
           </div>
         )}
 
         {step === "details" ? (
           <>
-            <div className="flex p-1 bg-black/5 rounded-xl mb-6">
+            <div className="flex gap-2 p-1.5 bg-background rounded-xl border border-border mb-6">
               <button 
                 onClick={() => setAuthMode("email")}
-                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${authMode === "email" ? "bg-white shadow-sm text-black" : "text-foreground/60 hover:text-black"}`}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all outline-none focus-visible:ring-2 focus-visible:ring-accent ${authMode === "email" ? "bg-surface shadow-sm text-primary border border-border" : "text-foreground/60 hover:text-primary border border-transparent"}`}
               >
                 Use Email
               </button>
               <button 
                 onClick={() => setAuthMode("phone")}
-                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${authMode === "phone" ? "bg-white shadow-sm text-black" : "text-foreground/60 hover:text-black"}`}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all outline-none focus-visible:ring-2 focus-visible:ring-accent ${authMode === "phone" ? "bg-surface shadow-sm text-primary border border-border" : "text-foreground/60 hover:text-primary border border-transparent"}`}
               >
                 Use Phone
               </button>
             </div>
 
-            <form className="mt-4 space-y-6" onSubmit={handleRegister}>
-              <div className="space-y-4">
+            <form className="mt-6 space-y-6" onSubmit={handleRegister}>
+              <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1">Full Name</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Full Name</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-foreground/40">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-accent">
                       <User className="h-5 w-5" />
                     </div>
                     <input
@@ -121,7 +119,7 @@ export default function RegisterPage() {
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-3 border border-black/10 rounded-xl bg-white/50 focus:ring-2 focus:ring-[#D4AF37] outline-none transition-all sm:text-sm"
+                      className="block w-full pl-12 pr-4 py-4 border border-border rounded-xl bg-background focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all font-medium text-primary shadow-sm"
                       placeholder="John Doe"
                     />
                   </div>
@@ -130,9 +128,9 @@ export default function RegisterPage() {
                 {authMode === "email" ? (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-foreground/80 mb-1">Email Address</label>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Email Address</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-foreground/40">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-accent">
                           <Mail className="h-5 w-5" />
                         </div>
                         <input
@@ -140,15 +138,15 @@ export default function RegisterPage() {
                           required
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="block w-full pl-10 pr-3 py-3 border border-black/10 rounded-xl bg-white/50 focus:ring-2 focus:ring-[#D4AF37] outline-none transition-all sm:text-sm"
+                          className="block w-full pl-12 pr-4 py-4 border border-border rounded-xl bg-background focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all font-medium text-primary shadow-sm"
                           placeholder="you@example.com"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-foreground/80 mb-1">Password</label>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Password</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-foreground/40">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-accent">
                           <Lock className="h-5 w-5" />
                         </div>
                         <input
@@ -156,7 +154,7 @@ export default function RegisterPage() {
                           required
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="block w-full pl-10 pr-3 py-3 border border-black/10 rounded-xl bg-white/50 focus:ring-2 focus:ring-[#D4AF37] outline-none transition-all sm:text-sm"
+                          className="block w-full pl-12 pr-4 py-4 border border-border rounded-xl bg-background focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all font-medium text-primary shadow-sm"
                           placeholder="••••••••"
                           minLength={6}
                         />
@@ -165,9 +163,9 @@ export default function RegisterPage() {
                   </>
                 ) : (
                   <div>
-                    <label className="block text-sm font-medium text-foreground/80 mb-1">Phone Number</label>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Phone Number</label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-foreground/40">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-accent">
                         <Phone className="h-5 w-5" />
                       </div>
                       <input
@@ -175,11 +173,11 @@ export default function RegisterPage() {
                         required
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="block w-full pl-10 pr-3 py-3 border border-black/10 rounded-xl bg-white/50 focus:ring-2 focus:ring-[#D4AF37] outline-none transition-all sm:text-sm"
+                        className="block w-full pl-12 pr-4 py-4 border border-border rounded-xl bg-background focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all font-medium text-primary shadow-sm"
                         placeholder="9999999999"
                       />
                     </div>
-                    <p className="text-xs text-foreground/50 mt-1">Include country code (e.g. +91) or we'll assume +91</p>
+                    <p className="text-xs font-medium text-foreground/50 mt-2">Include country code (e.g. +91) or we'll assume +91</p>
                   </div>
                 )}
               </div>
@@ -187,7 +185,7 @@ export default function RegisterPage() {
               {/* Invisible Recaptcha Container */}
               <div id="recaptcha-container"></div>
 
-              <Button type="submit" className="w-full py-6 text-lg" disabled={loading}>
+              <Button type="submit" className="w-full h-14 rounded-full text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl hover-lift disabled:opacity-50" disabled={loading}>
                 {loading ? "Processing..." : authMode === "phone" ? "Send OTP" : "Create Account"}
               </Button>
             </form>
@@ -195,24 +193,24 @@ export default function RegisterPage() {
         ) : (
           <form className="mt-8 space-y-6" onSubmit={handleVerifyOtp}>
             <div>
-              <label className="block text-sm font-medium text-foreground/80 mb-1">6-Digit OTP</label>
+              <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">6-Digit OTP</label>
               <input
                 type="text"
                 required
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="block w-full px-4 py-3 border border-black/10 rounded-xl bg-white/50 focus:ring-2 focus:ring-[#D4AF37] text-center tracking-widest text-lg font-bold outline-none"
-                placeholder="123456"
+                className="block w-full px-4 py-4 border border-border rounded-xl bg-background focus:ring-2 focus:ring-accent focus:border-transparent transition-all text-center tracking-widest text-2xl font-bold text-primary shadow-sm outline-none"
+                placeholder="• • • • • •"
                 maxLength={6}
               />
             </div>
-            <Button type="submit" className="w-full py-6 text-lg" disabled={loading}>
+            <Button type="submit" className="w-full h-14 rounded-full text-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl hover-lift disabled:opacity-50" disabled={loading}>
               {loading ? "Verifying..." : "Verify & Create Account"}
             </Button>
             <button 
               type="button" 
               onClick={() => { setStep("details"); setOtp(""); }}
-              className="w-full text-sm text-foreground/60 hover:text-black mt-2"
+              className="w-full text-sm font-bold text-foreground/60 hover:text-primary mt-4 transition-colors"
             >
               Back to registration
             </button>
@@ -220,10 +218,10 @@ export default function RegisterPage() {
         )}
 
         {step === "details" && (
-          <div className="text-center mt-6">
-            <p className="text-sm text-foreground/60">
+          <div className="text-center mt-8 pt-6 border-t border-border">
+            <p className="text-sm font-medium text-foreground/60">
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-[#D4AF37] hover:underline">
+              <Link href="/login" className="font-bold text-accent hover:underline">
                 Sign in securely
               </Link>
             </p>

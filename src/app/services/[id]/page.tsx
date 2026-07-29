@@ -54,9 +54,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             </div>
             
             {/* FIX: Consultation Fee Box (Removed glass-dark, aligned properly, high contrast) */}
-            <div className="text-left md:text-right bg-background p-6 rounded-2xl border border-border shadow-sm min-w-[200px] flex flex-col md:items-end">
+            <div className="text-left md:text-right bg-background p-6 rounded-2xl border border-border shadow-sm min-w-[200px] flex flex-col items-start md:items-end">
               <p className="text-xs text-foreground/60 font-bold uppercase tracking-widest mb-1">Consultation Fee</p>
-              <p className="text-4xl font-bold text-accent">₹{service.price}</p>
+              <p className="text-4xl font-bold text-primary">₹{service.price}</p>
               {service.durationMinutes > 0 && (
                 <div className="flex items-center gap-2 mt-3 text-foreground/70 text-sm font-medium">
                   <Clock className="w-4 h-4 text-accent" />

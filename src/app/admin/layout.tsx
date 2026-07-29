@@ -13,40 +13,40 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-gray-50/50">
+    <div className="flex min-h-screen bg-background">
       {/* Sidebar */}
-      <aside className="w-64 glass-dark border-r border-[#D4AF37]/20 flex flex-col hidden md:flex h-screen sticky top-0">
-        <div className="p-6 border-b border-[#D4AF37]/20">
+      <aside className="w-64 bg-primary border-r border-border flex flex-col hidden md:flex h-screen sticky top-0">
+        <div className="p-6 border-b border-border/20">
           <Link href="/admin" className="flex flex-col">
-            <span className="font-serif font-bold text-xl tracking-wider text-white">
+            <span className="font-serif font-bold text-xl tracking-wider text-primary-foreground">
               SHIVA ASTRO
             </span>
-            <span className="text-xs text-[#D4AF37] tracking-[0.2em] font-medium mt-1 uppercase">
+            <span className="text-xs text-accent tracking-[0.2em] font-medium mt-1 uppercase">
               Admin Portal
             </span>
           </Link>
         </div>
 
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors">
-            <LayoutDashboard className="w-5 h-5 text-[#D4AF37]" />
+          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-foreground/80 hover:text-primary-foreground hover:bg-white/10 transition-colors">
+            <LayoutDashboard className="w-5 h-5 text-accent" />
             <span className="font-medium">Overview</span>
           </Link>
-          <Link href="/admin/appointments" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors">
-            <CalendarDays className="w-5 h-5 text-[#D4AF37]" />
+          <Link href="/admin/appointments" className="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-foreground/80 hover:text-primary-foreground hover:bg-white/10 transition-colors">
+            <CalendarDays className="w-5 h-5 text-accent" />
             <span className="font-medium">Appointments</span>
           </Link>
-          <Link href="/admin/clients" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors">
-            <Users className="w-5 h-5 text-[#D4AF37]" />
+          <Link href="/admin/clients" className="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-foreground/80 hover:text-primary-foreground hover:bg-white/10 transition-colors">
+            <Users className="w-5 h-5 text-accent" />
             <span className="font-medium">Clients</span>
           </Link>
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-colors">
-            <Settings className="w-5 h-5 text-[#D4AF37]" />
+          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-foreground/80 hover:text-primary-foreground hover:bg-white/10 transition-colors">
+            <Settings className="w-5 h-5 text-accent" />
             <span className="font-medium">Settings</span>
           </Link>
         </nav>
 
-        <div className="p-4 border-t border-[#D4AF37]/20">
+        <div className="p-4 border-t border-border/20">
           <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors">
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Exit Admin</span>
@@ -57,26 +57,26 @@ export default function AdminLayout({
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-h-screen max-w-full overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 glass border-b border-black/5 flex items-center justify-between px-8 sticky top-0 z-10 bg-white/50 backdrop-blur-md">
+        <header className="h-16 bg-surface border-b border-border flex items-center justify-between px-8 sticky top-0 z-10 backdrop-blur-md">
           <div className="flex items-center gap-4 text-foreground/50">
-            <Search className="w-5 h-5" />
+            <Search className="w-5 h-5 text-accent" />
             <input 
               type="text" 
               placeholder="Search appointments, clients..." 
-              className="bg-transparent border-none outline-none focus:ring-0 text-sm w-64 placeholder:text-foreground/40 text-foreground font-medium"
+              className="bg-transparent border-none outline-none focus:ring-0 text-sm w-64 placeholder:text-foreground/40 text-primary font-medium"
             />
           </div>
           <div className="flex items-center gap-6">
-            <button className="relative text-foreground/60 hover:text-foreground transition-colors">
+            <button className="relative text-foreground/60 hover:text-primary transition-colors">
               <Bell className="w-5 h-5" />
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
             </button>
-            <div className="flex items-center gap-3 border-l border-black/10 pl-6">
+            <div className="flex items-center gap-3 border-l border-border pl-6">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-bold text-foreground">Acharya Ji</p>
+                <p className="text-sm font-bold text-primary">Acharya Ji</p>
                 <p className="text-xs text-foreground/50 font-medium">Super Admin</p>
               </div>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#AA771C] text-white flex items-center justify-center font-serif font-bold shadow-md">
+              <div className="w-10 h-10 rounded-full bg-accent text-primary flex items-center justify-center font-serif font-bold shadow-md">
                 A
               </div>
             </div>

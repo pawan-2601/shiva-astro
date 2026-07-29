@@ -179,7 +179,7 @@ export default function BookingPage({ params }: { params: Promise<{ serviceId: s
                 <div className="pt-6 border-t border-border mt-4">
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-sm font-bold text-foreground/70">Total Fee</p>
-                    <p className="text-2xl font-bold text-accent">₹{service.price}</p>
+                    <p className="text-2xl font-bold text-primary">₹{service.price}</p>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-foreground/50 font-medium">
                     <ShieldCheck className="w-4 h-4 text-accent" />

@@ -107,36 +107,36 @@ export default function AppointmentsPage() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 relative">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-serif font-bold text-foreground">Appointments CRM</h1>
-          <p className="text-foreground/60 mt-1">Manage all client bookings and birth details.</p>
+          <h1 className="text-3xl font-serif font-bold text-primary">Appointments CRM</h1>
+          <p className="text-foreground/60 mt-1 font-medium">Manage all client bookings and birth details.</p>
         </div>
         <button 
           onClick={() => setIsNewAppointmentModalOpen(true)}
-          className="px-6 py-2 bg-[#D4AF37] flex items-center gap-2 text-black font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
+          className="px-6 py-2.5 bg-accent flex items-center gap-2 text-primary font-bold rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
         >
           <Plus className="w-4 h-4" />
           New Appointment
         </button>
       </div>
 
-      <div className="glass p-6 rounded-3xl border border-black/5 shadow-sm bg-white/50">
-        <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+      <div className="bg-surface p-6 rounded-[2rem] border border-border shadow-premium">
+        <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
           <div className="relative w-full md:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-accent" />
             <input 
               type="text" 
               placeholder="Search by client name or ID..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none transition-all"
+              className="w-full pl-12 pr-4 py-3 rounded-full border border-border focus:border-accent bg-background focus:ring-1 focus:ring-accent outline-none transition-all font-medium shadow-sm text-primary"
             />
           </div>
           <div className="flex items-center gap-3">
-            <Filter className="w-5 h-5 text-gray-500" />
+            <Filter className="w-5 h-5 text-accent" />
             <select 
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="py-2.5 px-4 rounded-xl border border-gray-200 outline-none focus:border-[#D4AF37] appearance-none pr-10 relative bg-white font-medium"
+              className="py-3 px-5 rounded-full border border-border outline-none focus:border-accent appearance-none pr-12 relative bg-background font-bold text-primary shadow-sm"
             >
               <option value="All">All Statuses</option>
               <option value="Pending">Pending</option>
@@ -150,44 +150,44 @@ export default function AppointmentsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
-              <tr className="border-b border-gray-200 text-sm text-gray-500">
-                <th className="pb-4 font-semibold px-4">Appt ID & Date</th>
-                <th className="pb-4 font-semibold px-4">Client Name</th>
-                <th className="pb-4 font-semibold px-4">Service</th>
-                <th className="pb-4 font-semibold px-4">Birth Details</th>
-                <th className="pb-4 font-semibold px-4">Payment</th>
-                <th className="pb-4 font-semibold px-4">Status</th>
-                <th className="pb-4 font-semibold px-4 text-right">Actions</th>
+              <tr className="border-b border-border text-xs uppercase tracking-widest text-foreground/50 bg-background/50">
+                <th className="py-4 font-bold px-5">Appt ID & Date</th>
+                <th className="py-4 font-bold px-5">Client Name</th>
+                <th className="py-4 font-bold px-5">Service</th>
+                <th className="py-4 font-bold px-5">Birth Details</th>
+                <th className="py-4 font-bold px-5">Payment</th>
+                <th className="py-4 font-bold px-5">Status</th>
+                <th className="py-4 font-bold px-5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredAppointments.map((apt) => (
-                <tr key={apt.id} className="border-b border-gray-100 hover:bg-[#D4AF37]/5 transition-colors group cursor-pointer" onClick={() => { setSelectedAppointment(apt); setDrawerNotes(apt.adminNotes || ""); }}>
-                  <td className="py-4 px-4">
-                    <p className="font-bold text-gray-900">{apt.displayId || `APT-${apt.id.slice(0, 5).toUpperCase()}`}</p>
-                    <p className="text-sm text-gray-500">{new Date(apt.appointmentDate).toDateString()} <br/> {apt.appointmentTime}</p>
+                <tr key={apt.id} className="border-b border-border hover:bg-surface-hover transition-colors group cursor-pointer" onClick={() => { setSelectedAppointment(apt); setDrawerNotes(apt.adminNotes || ""); }}>
+                  <td className="py-5 px-5">
+                    <p className="font-bold text-primary">{apt.displayId || `APT-${apt.id.slice(0, 5).toUpperCase()}`}</p>
+                    <p className="text-sm font-medium text-foreground/60 mt-0.5">{new Date(apt.appointmentDate).toDateString()} <br/> {apt.appointmentTime}</p>
                   </td>
-                  <td className="py-4 px-4">
-                    <p className="font-bold text-gray-900">{apt.clientName}</p>
-                    <p className="text-xs text-gray-400">{apt.gender}</p>
+                  <td className="py-5 px-5">
+                    <p className="font-bold text-primary">{apt.clientName}</p>
+                    <p className="text-xs font-bold text-foreground/50 mt-0.5 uppercase tracking-wider">{apt.gender}</p>
                   </td>
-                  <td className="py-4 px-4">
-                    <span className="inline-block px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-700">
+                  <td className="py-5 px-5">
+                    <span className="inline-block px-3 py-1.5 bg-background rounded-full text-xs font-bold text-primary border border-border shadow-sm">
                       {apt.serviceName}
                     </span>
                   </td>
-                  <td className="py-4 px-4">
-                    <div className="text-sm">
-                      <p><span className="text-gray-400 mr-2">DOB:</span> <span className="font-medium">{apt.dob}</span></p>
-                      <p><span className="text-gray-400 mr-2">Place:</span> <span className="font-medium">{apt.pob}</span></p>
+                  <td className="py-5 px-5">
+                    <div className="text-sm font-medium">
+                      <p><span className="text-foreground/50 mr-2 text-xs uppercase tracking-widest">DOB</span> <span className="text-primary">{apt.dob}</span></p>
+                      <p><span className="text-foreground/50 mr-2 text-xs uppercase tracking-widest">Place</span> <span className="text-primary">{apt.pob}</span></p>
                     </div>
                   </td>
-                  <td className="py-4 px-4">
-                    <p className="font-bold text-gray-900">₹{apt.price || 0}</p>
-                    {apt.paymentId && <p className="text-[10px] text-gray-400 font-mono mt-1 w-24 break-all leading-tight" title="Payment ID">{apt.paymentId}</p>}
+                  <td className="py-5 px-5">
+                    <p className="font-bold text-primary">₹{apt.price || 0}</p>
+                    {apt.paymentId && <p className="text-[10px] text-foreground/40 font-mono mt-1 w-24 break-all leading-tight font-bold" title="Payment ID">{apt.paymentId}</p>}
                   </td>
-                  <td className="py-4 px-4">
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                  <td className="py-5 px-5">
+                    <span className={`inline-block px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest ${
                       apt.status === "Confirmed" ? "bg-green-100 text-green-700" : 
                       apt.status === "Pending" ? "bg-yellow-100 text-yellow-700" :
                       apt.status === "Completed" ? "bg-blue-100 text-blue-700" :
@@ -196,11 +196,11 @@ export default function AppointmentsPage() {
                       {apt.status}
                     </span>
                   </td>
-                  <td className="py-4 px-4 text-right">
+                  <td className="py-5 px-5 text-right">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                       <button 
                         onClick={() => { setSelectedAppointment(apt); setDrawerNotes(apt.adminNotes || ""); }}
-                        className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors" 
+                        className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors shadow-sm" 
                         title="View Details"
                       >
                         <Info className="w-4 h-4" />
@@ -208,7 +208,7 @@ export default function AppointmentsPage() {
                       {apt.status !== "Confirmed" && apt.status !== "Completed" && (
                         <button 
                           onClick={() => handleUpdateStatus(apt.id, "Confirmed")}
-                          className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors" 
+                          className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors shadow-sm" 
                           title="Confirm"
                         >
                           <Check className="w-4 h-4" />
@@ -217,7 +217,7 @@ export default function AppointmentsPage() {
                       {apt.status !== "Cancelled" && (
                         <button 
                           onClick={() => handleUpdateStatus(apt.id, "Cancelled")}
-                          className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors" 
+                          className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors shadow-sm" 
                           title="Cancel"
                         >
                           <X className="w-4 h-4" />
@@ -229,15 +229,15 @@ export default function AppointmentsPage() {
               ))}
               {loading && (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-gray-500">
-                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-[#D4AF37]" />
+                  <td colSpan={7} className="text-center py-12 text-foreground/50">
+                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-accent" />
                     Loading live appointments...
                   </td>
                 </tr>
               )}
               {!loading && filteredAppointments.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-gray-500">
+                  <td colSpan={7} className="text-center py-12 font-medium text-foreground/50">
                     No appointments found matching your search.
                   </td>
                 </tr>
@@ -251,72 +251,72 @@ export default function AppointmentsPage() {
       {selectedAppointment && (
         <>
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity" onClick={() => setSelectedAppointment(null)} />
-          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-50 border-l border-[#D4AF37]/30 flex flex-col animate-in slide-in-from-right duration-300">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-[#FAFAFA]">
+          <div className="fixed right-0 top-0 h-full w-full max-w-md bg-surface shadow-2xl z-50 border-l border-border flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="p-6 border-b border-border flex justify-between items-center bg-background">
               <div>
-                <h2 className="text-xl font-bold font-serif">{selectedAppointment.clientName}</h2>
-                <p className="text-sm text-gray-500 font-mono mt-1">{selectedAppointment.displayId || `APT-${selectedAppointment.id.slice(0, 5).toUpperCase()}`}</p>
+                <h2 className="text-2xl font-bold font-serif text-primary">{selectedAppointment.clientName}</h2>
+                <p className="text-sm font-medium text-foreground/50 font-mono mt-1">{selectedAppointment.displayId || `APT-${selectedAppointment.id.slice(0, 5).toUpperCase()}`}</p>
               </div>
-              <button onClick={() => setSelectedAppointment(null)} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
+              <button onClick={() => setSelectedAppointment(null)} className="p-2 hover:bg-border rounded-full transition-colors text-foreground/50">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            <div className="flex-1 overflow-y-auto p-8 space-y-8">
               <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Service Details</h3>
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                  <p className="font-bold text-gray-900 mb-1">{selectedAppointment.serviceName}</p>
-                  <p className="text-sm text-gray-600">{new Date(selectedAppointment.appointmentDate).toDateString()} at {selectedAppointment.appointmentTime}</p>
-                  <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
-                    <span className="text-sm font-medium">₹{selectedAppointment.price}</span>
-                    <span className="text-[10px] text-gray-500 font-mono bg-white px-2 py-1 rounded border">{selectedAppointment.paymentId}</span>
+                <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest mb-3">Service Details</h3>
+                <div className="bg-background p-5 rounded-2xl border border-border shadow-sm">
+                  <p className="font-bold text-primary mb-1 text-lg">{selectedAppointment.serviceName}</p>
+                  <p className="text-sm font-medium text-foreground/60">{new Date(selectedAppointment.appointmentDate).toDateString()} at {selectedAppointment.appointmentTime}</p>
+                  <div className="mt-4 pt-4 border-t border-border flex justify-between items-center">
+                    <span className="text-base font-bold text-primary">₹{selectedAppointment.price}</span>
+                    <span className="text-[10px] text-foreground/50 font-mono font-bold bg-surface px-2.5 py-1.5 rounded-md border border-border">{selectedAppointment.paymentId}</span>
                   </div>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Client Birth Details</h3>
+                <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest mb-3">Client Birth Details</h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-[10px] text-gray-500 uppercase">DOB</p>
-                    <p className="font-medium text-sm">{selectedAppointment.dob}</p>
+                  <div className="bg-background p-4 rounded-xl border border-border shadow-sm">
+                    <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mb-1">DOB</p>
+                    <p className="font-bold text-primary">{selectedAppointment.dob}</p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                    <p className="text-[10px] text-gray-500 uppercase">Time</p>
-                    <p className="font-medium text-sm">{selectedAppointment.tob}</p>
+                  <div className="bg-background p-4 rounded-xl border border-border shadow-sm">
+                    <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mb-1">Time</p>
+                    <p className="font-bold text-primary">{selectedAppointment.tob}</p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 col-span-2">
-                    <p className="text-[10px] text-gray-500 uppercase">Place of Birth</p>
-                    <p className="font-medium text-sm">{selectedAppointment.pob}</p>
+                  <div className="bg-background p-4 rounded-xl border border-border shadow-sm col-span-2">
+                    <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mb-1">Place of Birth</p>
+                    <p className="font-bold text-primary">{selectedAppointment.pob}</p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 col-span-2 flex justify-between">
+                  <div className="bg-background p-4 rounded-xl border border-border shadow-sm col-span-2 flex justify-between">
                     <div>
-                      <p className="text-[10px] text-gray-500 uppercase">Email</p>
-                      <p className="font-medium text-sm">{selectedAppointment.email || "N/A"}</p>
+                      <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mb-1">Email</p>
+                      <p className="font-bold text-primary">{selectedAppointment.email || "N/A"}</p>
                     </div>
-                    <div>
-                      <p className="text-[10px] text-gray-500 uppercase">Gender</p>
-                      <p className="font-medium text-sm">{selectedAppointment.gender}</p>
+                    <div className="text-right">
+                      <p className="text-[10px] text-foreground/50 font-bold uppercase tracking-widest mb-1">Gender</p>
+                      <p className="font-bold text-primary">{selectedAppointment.gender}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Admin Private Notes</h3>
+                <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest mb-3">Admin Private Notes</h3>
                 <textarea 
                   value={drawerNotes}
                   onChange={(e) => setDrawerNotes(e.target.value)}
                   placeholder="Add private notes about this client's situation, birth chart details, or follow-ups..."
-                  className="w-full h-32 p-4 rounded-xl border border-gray-200 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none text-sm resize-none bg-[#FAFAFA]"
+                  className="w-full h-32 p-4 rounded-xl border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none text-sm font-medium resize-none bg-background text-primary shadow-sm"
                 />
                 <button 
                   onClick={handleSaveNotes}
                   disabled={savingNotes || drawerNotes === selectedAppointment.adminNotes}
-                  className="mt-3 w-full py-2.5 bg-black text-white rounded-xl font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2"
+                  className="mt-4 w-full h-12 bg-primary text-primary-foreground rounded-full font-bold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex justify-center items-center gap-2 shadow-md hover-lift"
                 >
-                  {savingNotes ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  {savingNotes ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                   Save Notes
                 </button>
               </div>
@@ -329,85 +329,85 @@ export default function AppointmentsPage() {
       {isNewAppointmentModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsNewAppointmentModalOpen(false)} />
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl z-10 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-[#FAFAFA]">
-              <h2 className="text-xl font-bold font-serif">Manual Appointment Booking</h2>
-              <button onClick={() => setIsNewAppointmentModalOpen(false)} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
+          <div className="bg-surface rounded-[2rem] border border-border shadow-2xl w-full max-w-2xl z-10 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200">
+            <div className="p-6 md:p-8 border-b border-border flex justify-between items-center bg-background">
+              <h2 className="text-2xl font-bold font-serif text-primary">Manual Booking</h2>
+              <button onClick={() => setIsNewAppointmentModalOpen(false)} className="p-2 hover:bg-border rounded-full transition-colors text-foreground/50">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
-            <form onSubmit={handleCreateAppointment} className="p-6 overflow-y-auto flex-1">
+            <form onSubmit={handleCreateAppointment} className="p-6 md:p-8 overflow-y-auto flex-1">
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Client Name</label>
-                    <input required type="text" value={newApptData.clientName} onChange={e => setNewApptData({...newApptData, clientName: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Client Name</label>
+                    <input required type="text" value={newApptData.clientName} onChange={e => setNewApptData({...newApptData, clientName: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
-                    <input type="email" value={newApptData.email} onChange={e => setNewApptData({...newApptData, email: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Email</label>
+                    <input type="email" value={newApptData.email} onChange={e => setNewApptData({...newApptData, email: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Service</label>
-                    <select value={newApptData.serviceName} onChange={e => setNewApptData({...newApptData, serviceName: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]">
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Service</label>
+                    <select value={newApptData.serviceName} onChange={e => setNewApptData({...newApptData, serviceName: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all appearance-none">
                       <option value="Janam Kundli (Complete Life Reading)">Janam Kundli (Complete Life Reading)</option>
                       <option value="Kundli Matching">Kundli Matching</option>
                       <option value="Career & Business Consultation">Career & Business</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Price (₹)</label>
-                    <input required type="number" value={newApptData.price} onChange={e => setNewApptData({...newApptData, price: Number(e.target.value)})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Price (₹)</label>
+                    <input required type="number" value={newApptData.price} onChange={e => setNewApptData({...newApptData, price: Number(e.target.value)})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-gray-100 pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 border-t border-border pt-6">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Appointment Date</label>
-                    <input required type="date" value={newApptData.appointmentDate} onChange={e => setNewApptData({...newApptData, appointmentDate: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Appointment Date</label>
+                    <input required type="date" value={newApptData.appointmentDate} onChange={e => setNewApptData({...newApptData, appointmentDate: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Appointment Time</label>
-                    <input required type="time" value={newApptData.appointmentTime} onChange={e => setNewApptData({...newApptData, appointmentTime: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                    <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Appointment Time</label>
+                    <input required type="time" value={newApptData.appointmentTime} onChange={e => setNewApptData({...newApptData, appointmentTime: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                   </div>
                 </div>
 
-                <div className="border-t border-gray-100 pt-6">
-                  <h3 className="text-sm font-bold text-gray-500 uppercase mb-4">Birth Details</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border-t border-border pt-6">
+                  <h3 className="text-sm font-bold text-primary mb-5 font-serif">Birth Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
-                      <label className="block text-sm font-medium mb-1">DOB</label>
-                      <input required type="date" value={newApptData.dob} onChange={e => setNewApptData({...newApptData, dob: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                      <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">DOB</label>
+                      <input required type="date" value={newApptData.dob} onChange={e => setNewApptData({...newApptData, dob: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Time</label>
-                      <input required type="time" value={newApptData.tob} onChange={e => setNewApptData({...newApptData, tob: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                      <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Time</label>
+                      <input required type="time" value={newApptData.tob} onChange={e => setNewApptData({...newApptData, tob: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Gender</label>
-                      <select value={newApptData.gender} onChange={e => setNewApptData({...newApptData, gender: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]">
+                      <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Gender</label>
+                      <select value={newApptData.gender} onChange={e => setNewApptData({...newApptData, gender: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all appearance-none">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                       </select>
                     </div>
                     <div className="md:col-span-3">
-                      <label className="block text-sm font-medium mb-1">Place of Birth</label>
-                      <input required type="text" placeholder="City, State" value={newApptData.pob} onChange={e => setNewApptData({...newApptData, pob: e.target.value})} className="w-full p-2.5 rounded-lg border focus:ring-1 focus:ring-[#D4AF37]" />
+                      <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 mb-2">Place of Birth</label>
+                      <input required type="text" placeholder="City, State" value={newApptData.pob} onChange={e => setNewApptData({...newApptData, pob: e.target.value})} className="w-full px-4 py-3 bg-background rounded-xl border border-border focus:ring-2 focus:ring-accent font-medium text-primary shadow-sm outline-none transition-all" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex justify-end gap-3">
-                <button type="button" onClick={() => setIsNewAppointmentModalOpen(false)} className="px-6 py-2.5 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+              <div className="mt-10 flex justify-end gap-4 border-t border-border pt-6">
+                <button type="button" onClick={() => setIsNewAppointmentModalOpen(false)} className="px-6 py-3 border border-border rounded-full font-bold hover:bg-background transition-colors text-primary">
                   Cancel
                 </button>
-                <button type="submit" disabled={creating} className="px-6 py-2.5 bg-[#D4AF37] text-black rounded-xl font-bold hover:shadow-lg transition-all flex items-center gap-2 disabled:opacity-50">
-                  {creating && <Loader2 className="w-4 h-4 animate-spin" />}
+                <button type="submit" disabled={creating} className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-bold shadow-xl hover:bg-primary/90 transition-all hover-lift flex items-center gap-2 disabled:opacity-50">
+                  {creating && <Loader2 className="w-5 h-5 animate-spin" />}
                   Create Booking
                 </button>
               </div>
